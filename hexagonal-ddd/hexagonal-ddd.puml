@@ -1,0 +1,39 @@
+@startuml
+
+namespace "Layers Legend" as legend {
+    namespace infraestructure #SkyBlue {}
+    namespace domain #LightYellow {}
+    namespace application #LightPink {}
+}
+
+namespace apps #SkyBlue {
+    namespace app1 {
+        class Router
+        class Consumer
+    }
+}
+namespace contexts {
+    namespace boundedContext {
+        namespace application #LightPink {
+            namespace usecase1 {}
+            namespace usecase2 {}
+        }
+        namespace domain #LightYellow {
+            class Entity
+            class DomainService
+            interface Entity1Repository
+        }
+        namespace intraestructure #SkyBlue {
+            class Entity1MongoRespository
+            contexts.boundedContext.domain.Entity1Repository <|.. Entity1MongoRespository
+        }
+    }
+}
+
+apps.app1.Router --> contexts.boundedContext.application.usecase1
+apps.app1.Consumer --> contexts.boundedContext.application.usecase2
+contexts.boundedContext.application.usecase1 --> contexts.boundedContext.domain.Entity1Repository
+contexts.boundedContext.application.usecase1 --> contexts.boundedContext.domain.Entity
+contexts.boundedContext.application.usecase1 --> contexts.boundedContext.domain.DomainService
+
+@enduml

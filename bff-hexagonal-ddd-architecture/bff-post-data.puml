@@ -1,0 +1,45 @@
+@startuml BFF
+
+title BFF POST DATA
+
+component device
+component bff
+component "Micro 1" as MICRO1 {
+    component "Apps" as MICRO1_APPS {
+        interface HTTP as MICRO1_APPS_APP1_HTTP
+        interface AMQP as MICRO1_APPS_APP1_AMQP
+        component "App 1" as MICRO1_APPS_APP1
+        MICRO1_APPS_APP1_HTTP -- MICRO1_APPS_APP1
+        MICRO1_APPS_APP1_AMQP - MICRO1_APPS_APP1
+    }
+    component contexts as MICRO1_CTX {
+        component "Bounded Context 1" as MICRO1_CTX_CTX1
+        component "Bounded Context 2" as MICRO1_CTX_CTX2
+    }
+}
+
+component "Micro 2" as MICRO2 {
+    component "Apps" as MICRO2_APPS {
+        interface HTTP as MICRO2_APPS_APP1_HTTP
+        interface AMQP as MICRO2_APPS_APP1_AMQP
+        component "App 1" as MICRO2_APPS_APP1
+        MICRO2_APPS_APP1_HTTP -- MICRO2_APPS_APP1
+        MICRO2_APPS_APP1_AMQP - MICRO2_APPS_APP1
+    }
+    component contexts as MICRO2_CTX {
+        component "Bounded Context 1" as MICRO2_CTX_CTX1
+    }
+}
+
+component "Message broker" as MESSAGEBROKER
+
+device --> bff : POST Data
+bff --> MICRO1_APPS_APP1_HTTP : POST Data
+MICRO1_APPS_APP1 --> MICRO1_CTX_CTX1
+MICRO1_CTX_CTX1 ..> MESSAGEBROKER : Publish\nDomain event
+
+MESSAGEBROKER ..> MICRO1_CTX_CTX2 : Consume\nDomain event
+MESSAGEBROKER ..> MICRO2_APPS_APP1_AMQP : Consume\nDomain event
+MICRO2_APPS_APP1 --> MICRO2_CTX_CTX1
+
+@enduml
