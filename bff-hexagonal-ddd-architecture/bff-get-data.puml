@@ -13,7 +13,9 @@ component "Micro 1" as MICRO1 {
         MICRO1_APPS_APP1_AMQP - MICRO1_APPS_APP1
     }
     component contexts as MICRO1_CTX {
-        component "Bounded Context 1" as MICRO1_CTX_CTX1
+        component "Bounded Context 1" as MICRO1_CTX_CTX1 {
+            component "Domain Service" as MICRO1_CTX_CTX1_DS1
+        }
         component "Bounded Context 2" as MICRO1_CTX_CTX2
     }
 }
@@ -49,7 +51,7 @@ bff --> MICRO1_APPS_APP1_HTTP : GET Data
 MICRO1_APPS_APP1 --> MICRO1_CTX_CTX1
 MICRO2_APPS_APP1 --> MICRO2_CTX_CTX1
 
-MICRO1_CTX_CTX1 --> MICRO3_APPS_APP1_HTTP : GET Data
+MICRO1_CTX_CTX1_DS1 --> MICRO3_APPS_APP1_HTTP : GET Data
 bff --> MICRO2_APPS_APP1_HTTP : GET Data
 
 @enduml
