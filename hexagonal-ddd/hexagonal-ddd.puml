@@ -13,27 +13,37 @@ namespace apps #SkyBlue {
     }
 }
 namespace contexts {
-    namespace boundedContext {
-        namespace application #LightPink {
-            namespace usecase1 {}
-            namespace usecase2 {}
+    namespace boundedContext1 {
+        namespace module1 {
+            namespace application #LightPink {
+                namespace usecase1 {}
+                namespace usecase2 {}
+            }
+            namespace domain #LightYellow {
+                class ValueObject
+                class Entity
+                class AggregateRoot
+                class DomainService
+                interface AggregateRootRepository
+            }
+            namespace intraestructure #SkyBlue {
+                class AggregateRootMongoRespository
+                contexts.boundedContext1.module1.domain.AggregateRootRepository <|.. AggregateRootMongoRespository
+            }
         }
-        namespace domain #LightYellow {
-            class Entity
-            class DomainService
-            interface Entity1Repository
-        }
-        namespace intraestructure #SkyBlue {
-            class Entity1MongoRespository
-            contexts.boundedContext.domain.Entity1Repository <|.. Entity1MongoRespository
-        }
+        namespace module2 {}
+    }
+
+    namespace boundedContext2 {
+        namespace module1 {}
+        namespace module2 {}
     }
 }
 
-apps.app1.Router --> contexts.boundedContext.application.usecase1
-apps.app1.Consumer --> contexts.boundedContext.application.usecase2
-contexts.boundedContext.application.usecase1 --> contexts.boundedContext.domain.Entity1Repository
-contexts.boundedContext.application.usecase1 --> contexts.boundedContext.domain.Entity
-contexts.boundedContext.application.usecase1 --> contexts.boundedContext.domain.DomainService
+apps.app1.Router --> contexts.boundedContext1.module1.application.usecase1
+apps.app1.Consumer --> contexts.boundedContext1.module1.application.usecase2
+contexts.boundedContext1.module1.application.usecase1 --> contexts.boundedContext1.module1.domain.AggregateRootRepository
+contexts.boundedContext1.module1.application.usecase1 --> contexts.boundedContext1.module1.domain.AggregateRoot
+contexts.boundedContext1.module1.domain.AggregateRoot --> contexts.boundedContext1.module1.domain.DomainService
 
 @enduml
