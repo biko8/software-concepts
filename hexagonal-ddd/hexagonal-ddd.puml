@@ -44,6 +44,6 @@ apps.app1.Router --> contexts.boundedContext1.module1.application.usecase1
 apps.app1.Consumer --> contexts.boundedContext1.module1.application.usecase2
 contexts.boundedContext1.module1.application.usecase1 --> contexts.boundedContext1.module1.domain.AggregateRootRepository
 contexts.boundedContext1.module1.application.usecase1 --> contexts.boundedContext1.module1.domain.AggregateRoot
-contexts.boundedContext1.module1.domain.AggregateRoot --> contexts.boundedContext1.module1.domain.DomainService
+contexts.boundedContext1.module1.domain.AggregateRoot ..> contexts.boundedContext1.module1.domain.DomainService
 
 @enduml
